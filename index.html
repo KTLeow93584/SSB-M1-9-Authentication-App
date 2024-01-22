@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>
+    Authentication App - Leow Kean Tat (Kaz)
+  </title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body onload="onPageLoaded()">
+  <h2 id="form-title">Login</h2>
+  <image id="portrait" src="login.png" alt="" height="250px">
+
+  <div class="input-table">
+    <div id="username-group" class="input-table-row">
+      <label for="username" class="input-header-text input-table-element">Username: </label>
+      <input id="username" class="input-field input-table-element" type="text"/>
+    </div>
+  
+    <div id="password-group" class="input-table-row">
+      <label for="password" class="input-header-text input-table-element">Password: </label>
+      <div class="password-field-group">
+        <input id="password" class="input-field input-table-element" type="password"/>
+        <image src="eye-locked.svg" id="password-image" class="input-table-element" alt=""  width="25px"/>
+      </div>
+    </div>
+
+    <div id="new-password-group" class="input-table-row hidden">
+      <label for="new-password" class="input-header-text input-table-element">New Password: </label>
+      <div class="password-field-group">
+        <input id="new-password" class="input-field input-table-element" type="password"/>
+        <image src="eye-locked.svg" id="new-password-image" class="input-table-element" alt=""  width="25px"/>
+      </div>
+    </div>
+
+    <div id="confirm-password-group" class="input-table-row hidden">
+      <label for="confirm-password" class="input-header-text input-table-element">Confirm Password: </label>
+      <div class="password-field-group">
+        <input id="confirm-password" class="input-field input-table-element" type="password"/>
+        <image src="eye-locked.svg" id="password-confirmation-image" class="input-table-element" alt=""  width="25px"/>
+      </div>
+    </div>
+  </div>
+  <p id="warning-text" class="error hidden description-text"></p>
+  <p id="success-text" class="success hidden description-text"></p>
+    
+  <button id="submit" onclick="handleSubmit()">Login</button>
+
+  <p id="primary-group" class="input-header-text">
+    <span id="primary-description-link">Don't have an account?</span>
+    <span id="primary-toggle-link" class="toggle-link">Sign Up</span>
+  </p>
+
+  <p id="secondary-group" class="input-header-text">
+    <span id="secondary-description-link">Forgot your password?</span>
+    <span id="secondary-toggle-link" class="toggle-link">Click Here</span>
+  </p>
+    
+  <script src="script.js">
+  </script>
+</body>
+
+</html>

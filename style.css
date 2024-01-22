@@ -1,0 +1,120 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: beige;
+  border-spacing: 0px 5px;
+}
+
+.input-table {
+  display: table;
+}
+
+.input-table-row {
+  display: table-row;
+}
+
+.input-table-element {
+  display: table-cell;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+}
+
+.input-header-text {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  text-align: right;
+}
+
+.input-field {
+  padding: 2.5px 0px;
+}
+
+.password-field-group {
+  display:flex;
+  flex-direction: row;
+}
+
+.toggle-link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#portrait:hover {
+  /*
+    Animation Properties (https://www.w3schools.com/cssref/css3_pr_animation.php) in the following order:
+    1. Keyframe to play (default: "none" = no animation)
+    2. Duration to complete a cycle (0.25s = 250 milliseconds)
+    3. Cycle Iteration Count (Infinite = Perpetually Looped)
+    4. Timing Function (Other options are such as, "ease", "ease-in", "ease-out", "ease-in-out", "step-start", etc.)
+  */
+  animation: rotation 0.15s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#portrait:not(:hover) {
+  animation: none;
+}
+
+#submit {
+  background-image: linear-gradient(to right, darkblue 0%, teal 35%, skyblue 100%);
+  color: white;
+
+  background-size: 200% auto;
+  transition: 0.5s;
+  
+  border-radius: 15px;
+  width: 115px;
+  height: 25px;
+  
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+#submit:hover {
+  background-position: right top;
+}
+
+#primary-group {
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+#secondary-group {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: darkgreen;
+}
+
+.description-text {
+  width: 45%;
+  text-align: center;
+}
