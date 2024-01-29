@@ -47,6 +47,12 @@ const forgotPasswordNavIdentifier = {
   category: "Forgot",
   title: "Recover Lost Password"
 };
+
+const minimumPaswordCharacterCount = 8;
+const regexUpperLetters = /[A-z]/;
+const regexLowerLetters = /[a-z]/;
+const regexNumbers = /[0-9]/;
+const regexSymbols = /[^a-zA-z0-9]/g;
 // =====================================
 const onPageLoaded = () => {
   // Preload Images
@@ -276,10 +282,22 @@ const handleSubmit = () => {
       // Registration
       if (formTitle.textContent.toLowerCase() === registrationNavIdentifier.title.toLowerCase()) {
         const existingUser = registeredUsers.find((element) => element.username === username);
+        const passwordFilter = regexUpperLetters.test(password) & regexLowerLetters.test(password) & 
+          regexNumbers.test(password) & regexSymbols.test(password);
         
         // User already existed in the registered list.
         if (existingUser !== null && existingUser !== undefined) {
           showWarning(`User (${username}) already exists. Please log in instead.`);
+          return;
+        }
+        // Less than minimum number of characters (Password).
+        else if (password.length < minimumPaswordCharacterCount) {
+          showWarning(`Password cannot be less than ${minimumPaswordCharacterCount} characters.`);
+          return;
+        }
+        // Password Filter (Must meet the conditions - 1 symbol, number, lowercase letter and uppcase letter)
+        else if (!passwordFilter) {
+          showWarning(`Password must contain at least 1 symbol, number, upper case letter and lower case letter.`);
           return;
         }
 
