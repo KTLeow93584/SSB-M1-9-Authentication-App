@@ -52,7 +52,7 @@ const minimumPaswordCharacterCount = 8;
 const regexUpperLetters = /[A-z]/;
 const regexLowerLetters = /[a-z]/;
 const regexNumbers = /[0-9]/;
-const regexSymbols = /[^a-zA-z0-9]/g;
+const regexSymbols = /[^a-zA-z0-9]/;
 // =====================================
 const onPageLoaded = () => {
   // Preload Images
