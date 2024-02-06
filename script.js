@@ -64,7 +64,7 @@ const onPageLoaded = () => {
   // Pre-define functions of button's onclick callbacks.
   primaryToggleLink.onclick = () => toggleAuth("Register");
   secondaryToggleLink.onclick = () => toggleAuth("Forgot");
-  
+
   passwordImg.onclick = () => togglePasswordView("password", passwordImg, passwordInput);
   newPasswordImg.onclick = () => togglePasswordView("new-password", newPasswordImg, newPasswordInput);
   passwordConfirmationImg.onclick = () => togglePasswordView("password-confirmation", passwordConfirmationImg, passwordConfirmationInput);
@@ -73,7 +73,7 @@ const onPageLoaded = () => {
 const toggleAuth = (navigation) => {
   // Debug
   //console.log("Navigate to: " + navigation);
-  
+
   switch (navigation.toLowerCase()) {
     // =====================================
     // Login Page
@@ -91,16 +91,16 @@ const toggleAuth = (navigation) => {
       submitButton.textContent = "Login";
 
       if (usernameGroup.classList.contains("hidden"))
-          usernameGroup.classList.remove("hidden");
+        usernameGroup.classList.remove("hidden");
 
       if (passwordGroup.classList.contains("hidden"))
-          passwordGroup.classList.remove("hidden");
+        passwordGroup.classList.remove("hidden");
 
       if (!newPasswordGroup.classList.contains("hidden"))
-          newPasswordGroup.classList.add("hidden");
+        newPasswordGroup.classList.add("hidden");
 
       if (!passwordConfirmationGroup.classList.contains("hidden"))
-          passwordConfirmationGroup.classList.add("hidden");
+        passwordConfirmationGroup.classList.add("hidden");
       // ================
       primaryDescriptionLink.textContent = "Don't have an account?";
       primaryToggleLink.textContent = "Register";
@@ -108,7 +108,7 @@ const toggleAuth = (navigation) => {
       // ================
       secondaryToggleLink.onclick = () => toggleAuth("Forgot");
       if (secondaryGroup.classList.contains("hidden"))
-          secondaryGroup.classList.remove("hidden");
+        secondaryGroup.classList.remove("hidden");
       // ================
       break;
     // =====================================
@@ -125,7 +125,7 @@ const toggleAuth = (navigation) => {
       // ================
       formTitle.textContent = registrationNavIdentifier.title;
       submitButton.textContent = "Register";
-      
+
       if (passwordConfirmationGroup.classList.contains("hidden"))
         passwordConfirmationGroup.classList.remove("hidden");
       // ================
@@ -134,7 +134,7 @@ const toggleAuth = (navigation) => {
       primaryToggleLink.onclick = () => toggleAuth("Login");
       // ================
       if (!secondaryGroup.classList.contains("hidden"))
-          secondaryGroup.classList.add("hidden");
+        secondaryGroup.classList.add("hidden");
       // ================
       break;
     // =====================================
@@ -152,14 +152,14 @@ const toggleAuth = (navigation) => {
       submitButton.textContent = "Submit Request";
 
       if (usernameGroup.classList.contains("hidden"))
-          usernameGroup.classList.remove("hidden");
+        usernameGroup.classList.remove("hidden");
 
       if (!passwordGroup.classList.contains("hidden"))
         passwordGroup.classList.add("hidden");
 
       if (newPasswordGroup.classList.contains("hidden"))
-          newPasswordGroup.classList.remove("hidden");
-      
+        newPasswordGroup.classList.remove("hidden");
+
       if (passwordConfirmationGroup.classList.contains("hidden"))
         passwordConfirmationGroup.classList.remove("hidden");
       // ================
@@ -168,7 +168,7 @@ const toggleAuth = (navigation) => {
       primaryToggleLink.onclick = () => toggleAuth("Login");
       // ================
       if (!secondaryGroup.classList.contains("hidden"))
-          secondaryGroup.classList.add("hidden");
+        secondaryGroup.classList.add("hidden");
       // ================
       break;
     // =====================================
@@ -180,10 +180,12 @@ const toggleAuth = (navigation) => {
   passwordConfirmationInput.value = "";
 
   if (!successText.classList.contains("hidden"))
-      successText.classList.add("hidden");
+    successText.classList.add("hidden");
 
   if (!warningText.classList.contains("hidden"))
-      warningText.classList.add("hidden");
+    warningText.classList.add("hidden");
+
+  resetPasswordView();
 }
 // ======================================
 // User Format:
@@ -204,7 +206,7 @@ const handleSubmit = () => {
   // Logout
   if (loggedUser !== null) {
     loggedUser = null;
-    
+
     submitButton.textContent = "Login";
     successText.textContent = "Successfully logged out.";
 
@@ -224,7 +226,7 @@ const handleSubmit = () => {
   else {
     // ==========================
     const username = usernameInput.value;
-    const password = formTitle.textContent.toLowerCase() === "recover lost password" ?  newPasswordInput.value: passwordInput.value;
+    const password = formTitle.textContent.toLowerCase() === "recover lost password" ? newPasswordInput.value : passwordInput.value;
     const passwordConfirmation = passwordConfirmationInput.value;
     // ==========================
     const emptyFields = [];
@@ -253,7 +255,7 @@ const handleSubmit = () => {
         }
 
         successText.textContent = `Successfully logged in. Welcome, ${user.username}!`;
-        
+
         loggedUser = user;
         submitButton.textContent = "Logout";
 
@@ -272,32 +274,33 @@ const handleSubmit = () => {
     }
     // ==========================
     // Register or Forgot Password
-    else if (formTitle.textContent.toLowerCase() === registrationNavIdentifier.title.toLowerCase() || 
-            formTitle.textContent.toLowerCase() === forgotPasswordNavIdentifier.title.toLowerCase()) {
+    else if (formTitle.textContent.toLowerCase() === registrationNavIdentifier.title.toLowerCase() ||
+      formTitle.textContent.toLowerCase() === forgotPasswordNavIdentifier.title.toLowerCase()) {
       if (passwordConfirmation != password) {
         showWarning(`Password does not much with confirmation.`);
+        return;
+      }
+      const passwordFilter = regexUpperLetters.test(password) & regexLowerLetters.test(password) &
+        regexNumbers.test(password) & regexSymbols.test(password);
+
+      // Less than minimum number of characters (Password).
+      if (password.length < minimumPaswordCharacterCount) {
+        showWarning(`Password cannot be less than ${minimumPaswordCharacterCount} characters.`);
+        return;
+      }
+      // Password Filter (Must meet the conditions - 1 symbol, number, lowercase letter and uppcase letter)
+      else if (!passwordFilter) {
+        showWarning(`Password must contain at least 1 symbol, number, upper case letter and lower case letter.`);
         return;
       }
 
       // Registration
       if (formTitle.textContent.toLowerCase() === registrationNavIdentifier.title.toLowerCase()) {
         const existingUser = registeredUsers.find((element) => element.username === username);
-        const passwordFilter = regexUpperLetters.test(password) & regexLowerLetters.test(password) & 
-          regexNumbers.test(password) & regexSymbols.test(password);
-        
+
         // User already existed in the registered list.
         if (existingUser !== null && existingUser !== undefined) {
           showWarning(`User (${username}) already exists. Please log in instead.`);
-          return;
-        }
-        // Less than minimum number of characters (Password).
-        else if (password.length < minimumPaswordCharacterCount) {
-          showWarning(`Password cannot be less than ${minimumPaswordCharacterCount} characters.`);
-          return;
-        }
-        // Password Filter (Must meet the conditions - 1 symbol, number, lowercase letter and uppcase letter)
-        else if (!passwordFilter) {
-          showWarning(`Password must contain at least 1 symbol, number, upper case letter and lower case letter.`);
           return;
         }
 
@@ -350,5 +353,22 @@ const togglePasswordView = (key, imgComponent, input) => {
 
   imgComponent.src = isLockedStateDict[key] ? lockedPasswordImage : unlockedPasswordImage;
   input.type = isLockedStateDict[key] ? "password" : "text";
+}
+
+const resetPasswordView = () => {
+  for (passwordElement in isLockedStateDict) {
+    isLockedStateDict[passwordElement] = true;
+    switch (passwordElement) {
+      case "password":
+        passwordImg.src = lockedPasswordImage;
+        passwordInput.type = "password";
+      case "passwordConfirmation":
+        passwordConfirmationImg.src = lockedPasswordImage;
+        passwordConfirmationInput.type = "password";
+    }
+  }
+
+  newPasswordImg.src = lockedPasswordImage;
+  newPasswordInput.type = "password";
 }
 // =====================================
